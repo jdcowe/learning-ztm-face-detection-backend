@@ -4,9 +4,11 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 const database = {
     users: [
@@ -34,12 +36,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
-    bcrypt.compare("apples", '$2b$10$hcNxTE8b.HYYzHs2eWlS1ux/whjgHbnI2tmoIKaeNL8D9DgtgDZ62', function(err, res) {
-        console.log('first guess', res);
-    });
-    bcrypt.compare("veggies", '$2b$10$hcNxTE8b.HYYzHs2eWlS1ux/whjgHbnI2tmoIKaeNL8D9DgtgDZ62', function(err, res) {
-        console.log('second guess', res);
-    });
+    
     if (req.body.email === database.users[0].email &&
         req.body.password === database.users[0].password) {
             res.json('success')
